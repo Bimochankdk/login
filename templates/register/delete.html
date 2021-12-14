@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<p> Do you really want to delete "{{ item }}"???</p>
+	<form method="POST" action="{% url 'delete' item.id %}">
+		{% csrf_token %}
+		<button><a href="{% url 'show_users'%}">Cancel</a></button>
+		<input type="submit" name="Confirm">
+	</form>
+</body>
+</html>
