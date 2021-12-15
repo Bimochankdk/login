@@ -145,9 +145,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/' # new
 
 
-DEFAULT_FROM_EMAIL = 'No Replay Pay <test.dev18.test@gmail.com>'
+DEFAULT_FROM_EMAIL = 'No Replay Pay <just.checking.dude@gmail.com>'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'test.dev18.test@gmail.com'
+EMAIL_HOST_USER = 'just.checking.dude@gmail.com'
 EMAIL_HOST_PASSWORD = 'iam100good'
 EMAIL_PORT = 587
