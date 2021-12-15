@@ -6,16 +6,22 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+
 # Create your views here.
-
-
-# def index(request):
-# 	form = AuthenticationForm(data=request.POST or None)
-# 	return render(request, 'registration/login.html', {'form': form })
-
-# def index(request):
-# 	return render(request,'register/index.html')
-
 
 def register(response):
 	if response.method == "POST":
@@ -91,7 +97,6 @@ def login_view(request):
 
 
 def logout_view(request):
-	print("??????????????")
 	logout(request)
 	return redirect("/")
 
@@ -104,31 +109,18 @@ def delete_user(request, pk):
 		return redirect("/show_users")
 	return render(request,'register/delete.html',{'user': user})
 
-# def search_user(request):
-# 	if request.GET.get('searched'):
-# 		searched = request.GET.get('searched')
-# 		try:
-# 			us = User.objects.filter(username__icontains = searched)
-# 			return render(request, "register/search.html", {'us':us})
-# 		except:
-# 			return render(request, "register/search.html", {'us':us})	
-# 	else:
-# 		return render(request, "register/search.html", {})
+@login_required(login_url='/')
+def search_user(request):
+	if request.GET.get('searched'):
+		searched = request.GET.get('searched')
+		try:
+			us = User.objects.filter(username__icontains = searched)
+			return render(request, "register/search.html", {'us':us})
+		except:
+			return render(request, "register/search.html", {'us':us})	
+	else:
+		return render(request, "register/search.html", {})
 
-
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.models import User
-from django.template.loader import render_to_string
-from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
 
 
 def password_reset_request(request):
